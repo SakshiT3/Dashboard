@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Account</title>
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script type="module">
+      window.addEventListener("load", function () {
+        const firebaseConfig = {
+        apiKey: "AIzaSyCNn3FJeOvoL31TlTPR3Uw-DsnmQJL2JR0",
+        authDomain: "smartagro-9a942.firebaseapp.com",
+        projectId: "smartagro-9a942",
+        storageBucket: "smartagro-9a942.appspot.com",
+        messagingSenderId: "797187941853",
+        appId: "1:797187941853:web:3ca5e8c0d32bf80e120234"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        var logoutButton = document.getElementById("logout-button");
+
+        logoutButton.addEventListener("click", function () {
+          auth.signOut().then(function () {
+            window.location.href = "sign_in.html";
+          });
+        });
+
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (!user) {
+            // User is not signed in, redirect to login page
+            window.location.href = "sign_in.html";
+          }
+        });
+      });
+
+
+
+
+        var database = firebase.database();
+        
+        firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        var uid = dashboard;
+        var temperatureElement = document.getElementById("temperature");
+        var moistureElement = document.getElementById("moisture");
+        var humidityElement = document.getElementById("humidity");
+
+        firebase.database().ref("users/" + uid).on("value", function (snapshot) {
+          var data = snapshot.val();
+
+          if (data) {
+            var temperature = data.temperature;
+            var humidity = data.humidity;
+            var moisture = data.moisture;
+
+            if (typeof temperature === "number") {
+              temperatureElement.innerHTML = temperature + "°C";
+            } else {
+              temperatureElement.innerHTML = "Error: Temperature data not in expected format";
+            }
+
+            if (typeof humidity === "number") {
+              humidityElement.innerHTML = humidity + "%";
+            } else {
+              humidityElement.innerHTML = "Error: Humidity data not in expected format";
+            }
+
+            if (typeof moisture === "number") {
+              moistureElement.innerHTML = moisture + "%";
+            } else {
+              humidityElement.innerHTML = "Error: Humidity data not in expected format";
+            }
+          } else {
+            temperatureElement.innerHTML = "Error: No temperature data found";
+            humidityElement.innerHTML = "Error: No humidity data found";
+            moistureElement.innerHTML = "Error: No moisture data found";
+          }
+        });
+      } else {
+        // No user is signed in.
+  }
+});
+       /*  // Get a reference to the authentication key for the current user
+        var userRef = database.ref('user/' + firebase.auth().currentUser.uid);
+
+        // Get references to the temperature, moisture, humidity values in the database
+        var TemperatureRef = userRef.child('sensor/Temperature');
+        var MoistureRef = userRef.child('sensor/Moisture');
+        var HumidityRef = userRef.child('sensor/Humidity');
+
+        // Get references to the sign-in and sign-out buttons
+        var signInButton = document.getElementById('sign-in-button');
+        var signOutButton = document.getElementById('sign-out-button');
+
+        // Listen for changes to the authentication state
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // If the user is authenticated, show the data and hide the sign-in button
+            document.getElementById('dashboard').style.display = 'block';
+            signInButton.style.display = 'none';
+            TemperatureRef.on('value', function(snapshot) {
+            var Temperature = snapshot.val();
+            document.getElementById('Temperature-value').innerHTML = Temperature + '&deg;C';
+            });
+          // Listen for changes to the Moisture value and update the Moisture reading on the website
+            MoistureRef.on('value', function(snapshot) {
+            var Moisture = snapshot.val();
+            document.getElementById('Moisture-value').innerHTML = Moisture + '%'});
+
+            // Listen for changes to the humiduty value and update the humidity reading on the website
+            HumidityRef.on('value', function(snapshot) {
+            var Humidity = snapshot.val();
+            document.getElementById('Humidity-value').innerHTML = Humidity + '%'});
+          }
+        });  */
+    </script>
+  </head>
+
+
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <h4>SmartAgro</h4>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#dashboard">Dashboard</a></li>
+          <li><a href="#calendar">Calendar</a></li>
+          <li><a href="#analytics">Analytics</a></li>
+          <li><a href="sign_out.html">Logout</a></li>
+        </ul>
+      </nav>
+      <h1>Welcome to your Dashboard!</h1>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br>
+    <br>
+    <br>
+    !-- Display temperature and humidity data -->
+  <div>
+    <p><span id="user-uid"></span></p>
+    <p>Temperature: <span id="temperature"></span></p>
+    <p>Humidity: <span id="humidity"></span></p>
+  </div>
+
+
+  <!-- <main>
+    <!-- <button id="logout-button">Logout</button> --> 
+   <section class="Dashboard" id="dashboard">
+		<div class="sensor-values-container">
+			<div class="value-container">
+				<h2>Temperature</h2>
+				<p id="Temperature-value"></p>
+			</div>
+			<div class="value-container">
+				<h2>Moisture</h2>
+				<p id="Moisture-value"></p>
+			</div>
+			<div class="value-container">
+				<h2>Humidity</h2>
+				<p id="Humidity-value"></p>
+			</div>
+		</div>
+	</section> 
+ -->
+
+  <section class="Calendar" id="Calendar">
+      
+  </section>
+      
+  <section class="Analytics" id="Analytics">
+        
+  </section>
+  </main>
+
+  <footer>All Rights Reserved @ SmartAgro 2023</footer>
+  <script src="script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Logout</title>
+    <style>
+        .box {
+            background-color: #90ee90;
+            border-radius: 10px;
+            margin: auto;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 450px;
+            transform: translate(-50%, -50%);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            border-radius: 5px;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4682b4;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2f4f4f;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script type="module">
+        window.addEventListener("load", function () {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCNn3FJeOvoL31TlTPR3Uw-DsnmQJL2JR0",
+                authDomain: "smartagro-9a942.firebaseapp.com",
+                projectId: "smartagro-9a942",
+                storageBucket: "smartagro-9a942.appspot.com",
+                messagingSenderId: "797187941853",
+                appId: "1:797187941853:web:3ca5e8c0d32bf80e120234"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            var logoutButton = document.getElementById("logout-button");
+
+        logoutButton.addEventListener("click", function () {
+          auth.signOut().then(function () {
+            window.location.href = "sign_in.html";
+          });
+        });
+
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (!user) {
+            // User is not signed in, redirect to login page
+            window.location.href = "sign_in.html";
+          }
+        });
+      });
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Logout</h1>
+        <form>
+
+            <p>Click below to confirm and logout</p>
+            <button id="logout-button">Logout</button> 
+        </form>
+    </div>
+</body>
+
+</html>
